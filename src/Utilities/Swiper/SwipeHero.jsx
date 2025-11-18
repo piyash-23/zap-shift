@@ -13,7 +13,7 @@ const SwipeHero = () => {
     <>
       <div>
         <Swiper
-          className="mySwiper"
+          className="mySwiper my-4"
           spaceBetween={20}
           centeredSlides={true}
           loop={true}
@@ -28,7 +28,7 @@ const SwipeHero = () => {
           modules={[Autoplay, Pagination, Navigation]}
         >
           <SwiperSlide>
-            <div className="p-7">
+            <div className="p-7 bg-white rounded-[30px]">
               <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
                 <div className="flex-2">
                   <img src={manrun} />
@@ -58,7 +58,7 @@ const SwipeHero = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="p-7">
+            <div className="p-7 bg-white rounded-[30px]">
               <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
                 <div className="flex-2">
                   <h2 className="text-[56px] font-extrabold text-primary">
@@ -87,7 +87,7 @@ const SwipeHero = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="p-7">
+            <div className="p-7 bg-white rounded-[30px]">
               <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-4">
                 <div className="flex-2">
                   <h2 className="text-[56px] font-extrabold text-primary">

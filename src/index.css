@@ -3,6 +3,9 @@
 * {
   font-family: "Urbanist";
 }
+body {
+  background: #eaeced;
+}
 .pri-btn {
   background: #caeb66;
   box-shadow: none;
