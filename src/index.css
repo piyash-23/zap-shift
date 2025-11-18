@@ -3,7 +3,23 @@
 * {
   font-family: "Urbanist";
 }
-
+.pri-btn {
+  background: #caeb66;
+  box-shadow: none;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 16px;
+}
+.sec-btn {
+  box-shadow: none;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 16px;
+  background: transparent;
+  color: #caeb66;
+  border: 1px solid #caeb66;
+  margin: 0 20px;
+}
 .imgBox {
   background: linear-gradient(#eeedfc, #eeedfc00);
   display: inline-block;
@@ -18,4 +34,11 @@
   background: #caeb66;
   /* padding: 10px 14px; */
   border-radius: 100px;
+}
+.mercha {
+  background: url(./assets/bglayer.png), #03373d;
+  background-repeat: no-repeat;
+  border-radius: 2rem;
+  padding: 15px 20px;
+  margin: 20px 0;
 }

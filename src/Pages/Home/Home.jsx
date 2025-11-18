@@ -4,6 +4,7 @@ import Howit from "../../Utilities/Howit/Howit";
 import OurSer from "../../Utilities/OurSer/OurSer";
 import Brands from "../../Utilities/Brands/Brands";
 import Facilities from "../../Utilities/Facilities/Facilities";
+import Mercha from "../../Utilities/Mercha/Mercha";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
           <div className="divider py-10"></div>
         </div>
       </div>
+      <Mercha />
     </>
   );
 };
