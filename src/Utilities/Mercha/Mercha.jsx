@@ -26,7 +26,7 @@ const Mercha = () => {
             </div>
           </div>
           <div>
-            <img src={bookl} alt="" />
+            <img src={bookl} />
           </div>
         </div>
       </div>
