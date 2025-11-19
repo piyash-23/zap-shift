@@ -5,8 +5,12 @@ import OurSer from "../../Utilities/OurSer/OurSer";
 import Brands from "../../Utilities/Brands/Brands";
 import Facilities from "../../Utilities/Facilities/Facilities";
 import Mercha from "../../Utilities/Mercha/Mercha";
+import { useLoaderData } from "react-router";
+import ReviewSec from "../../Components/ReviewSec/ReviewSec";
 
 const Home = () => {
+  const reviews = useLoaderData();
+  // console.log(reviews);
   return (
     <>
       <div>
@@ -23,6 +27,7 @@ const Home = () => {
         </div>
       </div>
       <Mercha />
+      <ReviewSec reviews={reviews} />
     </>
   );
 };

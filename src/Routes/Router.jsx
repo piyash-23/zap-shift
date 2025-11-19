@@ -13,6 +13,7 @@ const Router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: () => fetch("/reviews.json").then((res) => res.json()),
         Component: Home,
       },
       {
