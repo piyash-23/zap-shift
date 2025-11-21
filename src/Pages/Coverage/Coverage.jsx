@@ -1,9 +1,14 @@
 import React from "react";
+import Map from "./Maps/Map";
+import { useLoaderData } from "react-router";
 
 const Coverage = () => {
+  const warehouses = useLoaderData();
   return (
     <>
-      <div>this is coverage</div>
+      <div>
+        <Map warehouses={warehouses}></Map>
+      </div>
     </>
   );
 };
