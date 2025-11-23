@@ -12,7 +12,7 @@ const Navbar = () => {
         <NavLink to={"/coverage"}>Coverage</NavLink>
       </li>
       <li>
-        <Link to={"/about"}>About Us</Link>
+        <NavLink to={"/about-us"}>About Us</NavLink>
       </li>
       <li>
         <Link>Pricing</Link>
@@ -59,9 +59,12 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn bg-transparent border-side border-2 rounded-full">
+          <Link
+            to={"/login"}
+            className="btn bg-transparent border-side border-2 rounded-full"
+          >
             Sign In
-          </a>
+          </Link>
           <a className="btn bg-secondary text-head font-bold rounded-full">
             Be a rider
           </a>

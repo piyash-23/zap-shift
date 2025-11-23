@@ -4,6 +4,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Home from "../../Pages/Home/Home";
 import Footer from "../../Components/Footer/Footer";
 import Coverage from "../../Pages/Coverage/Coverage";
+import About from "../../Pages/About/About";
 
 const MainLayout = () => {
   return (
@@ -13,6 +14,7 @@ const MainLayout = () => {
         <Outlet>
           <Home></Home>
           <Coverage></Coverage>
+          <About></About>
         </Outlet>
         <Footer></Footer>
       </div>
