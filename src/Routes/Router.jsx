@@ -8,6 +8,9 @@ import About from "../Pages/About/About";
 import AuthLayout from "../Layouts/Auth/AuthLayout";
 import Login from "../Pages/AuthPages/Login/Login";
 import Register from "../Pages/AuthPages/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import Rider from "../Pages/Rider/Rider";
+import SendParcel from "../Pages/Send Parcel/SendParcel";
 
 const Router = createBrowserRouter([
   {
@@ -33,6 +36,23 @@ const Router = createBrowserRouter([
       {
         path: "about-us",
         Component: About,
+      },
+      {
+        path: "rider",
+        element: (
+          <PrivateRoute>
+            <Rider></Rider>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "send-parcel",
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
+        element: (
+          <PrivateRoute>
+            <SendParcel></SendParcel>
+          </PrivateRoute>
+        ),
       },
     ],
   },

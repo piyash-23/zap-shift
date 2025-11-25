@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth/useAuth";
+import axios from "axios";
 
 const Register = () => {
-  const { createWithMail, setUser, googleSign } = useAuth();
+  const { createWithMail, setUser, googleSign, updateUserProfile } = useAuth();
   const [show, setShow] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleShow = () => {
     setShow(!show);
   };
@@ -18,10 +21,35 @@ const Register = () => {
   } = useForm();
   const handleReg = (data) => {
     console.log(data);
+    // get the uploaded photo
+    const photo = data.photo[0];
     createWithMail(data.email, data.password)
       .then((result) => {
         console.log(result);
-        setUser(result);
+        const user = result.user;
+        // make a formdata for photo
+        const formData = new FormData();
+        formData.append("image", photo);
+        // post the photo to imgbb
+        const imgUrl = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host
+        }`;
+        axios.post(imgUrl, formData).then((res) => {
+          console.log("after image upload", res.data.data.url);
+          const updateProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          updateUserProfile(updateProfile)
+            .then(() => {
+              console.log("profile updated");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+        navigate(location?.state);
+        setUser(user);
       })
       .then((error) => {
         console.log(error);
@@ -32,7 +60,8 @@ const Register = () => {
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-        console.log(user);
+        // console.log(user);
+        navigate(location?.state);
         setUser(user);
       })
       .catch((error) => {
@@ -63,6 +92,16 @@ const Register = () => {
               />
               {errors.name?.type === "required" && (
                 <p className="text-red-500 font-bold">Enter Your Name</p>
+              )}
+              <label className="label">Your Photo</label>
+              <input
+                type="file"
+                className="file-input file-input-ghost outline-none w-full"
+                placeholder="Photo"
+                {...register("photo", { required: true })}
+              />
+              {errors.photo?.type === "required" && (
+                <p className="text-red-500 font-bold">Insert a Photo</p>
               )}
               <label className="label">Email</label>
               <input

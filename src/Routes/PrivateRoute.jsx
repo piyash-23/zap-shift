@@ -1,9 +1,11 @@
 import React from "react";
 import useAuth from "../hooks/useAuth/useAuth";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 const PrivateRoute = ({ children }) => {
+  const location = useLocation();
   const { loading, user } = useAuth();
+  // console.log(location);
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">

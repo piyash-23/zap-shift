@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth/useAuth";
 
 const Login = () => {
   const { signWithMail, setUser, googleSign } = useAuth();
   const [show, setShow] = useState(false);
+  // use navigate and location to send in a desired page
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleShow = () => {
     setShow(!show);
   };
@@ -23,7 +26,9 @@ const Login = () => {
         // Signed in
         const user = result.user;
         setUser(user);
-        console.log(user);
+        // console.log(user);
+        // navigate to send to the desired page
+        navigate(location?.state || "/");
         // ...
       })
       .catch((error) => {
@@ -35,15 +40,16 @@ const Login = () => {
   const handleGoogle = () => {
     googleSign()
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         console.log(user);
+        navigate(location?.state || "/");
         setUser(user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        const email = error.customData.email;
+        // const email = error.customData.email;
         console.log(errorCode, errorMessage);
       });
   };
