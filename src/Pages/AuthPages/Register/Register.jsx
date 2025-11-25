@@ -6,7 +6,7 @@ import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth/useAuth";
 
 const Register = () => {
-  const { createWithMail, setUser } = useAuth();
+  const { createWithMail, setUser, googleSign } = useAuth();
   const [show, setShow] = useState(false);
   const handleShow = () => {
     setShow(!show);
@@ -25,6 +25,21 @@ const Register = () => {
       })
       .then((error) => {
         console.log(error);
+      });
+  };
+  const handleGoogle = () => {
+    googleSign()
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log(user);
+        setUser(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        console.log(errorCode, errorMessage);
       });
   };
   return (
@@ -110,9 +125,12 @@ const Register = () => {
                 Login
               </Link>
             </p>
-            <p>Or</p>
+            <p className="text-primary font-bold text-center my-2">Or</p>
             <div>
-              <button className="btn bg-white text-black border-[#e5e5e5] w-full">
+              <button
+                onClick={handleGoogle}
+                className="btn bg-white text-black border-[#e5e5e5] w-full"
+              >
                 <svg
                   aria-label="Google logo"
                   width="16"

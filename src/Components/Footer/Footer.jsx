@@ -31,9 +31,9 @@ const Footer = () => {
       <div>
         <footer className="footer footer-horizontal footer-center bg-[#0b0b0b] rounded-3xl p-10">
           <aside className="text-white">
-            <Link to={"/"}>
+            <div>
               <Logo></Logo>
-            </Link>
+            </div>
             <p>
               Enjoy fast, reliable parcel delivery with real-time tracking and
               zero hassle. From personal packages to business shipments — we

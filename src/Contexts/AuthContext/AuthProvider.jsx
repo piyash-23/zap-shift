@@ -16,14 +16,17 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const createWithMail = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signWithMail = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleSign = () => {
+    setLoading(true);
     return signInWithPopup(auth, provider);
   };
   useEffect(() => {

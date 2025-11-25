@@ -2,9 +2,19 @@ import React from "react";
 import { Link, NavLink } from "react-router";
 import Logo from "../Logo/Logo";
 import useAuth from "../../hooks/useAuth/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
+  const handleLogOut = () => {
+    logOut().then(() => {
+      Swal.fire({
+        title: "Logged Out Successfully",
+        icon: "success",
+        draggable: true,
+      });
+    });
+  };
   const links = (
     <>
       <li>
@@ -53,20 +63,30 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <Link to={"/"} className="cursor-pointer text-xl">
+          <div>
             <Logo></Logo>
-          </Link>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <Link
-            to={"/login"}
-            className="btn bg-transparent border-side border-2 rounded-full"
-          >
-            {user ? "Sign Out" : "  Sign In"}
-          </Link>
+          {user ? (
+            <button
+              onClick={handleLogOut}
+              className="btn bg-transparent border-side border-2 rounded-full"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              to={"/login"}
+              className="btn bg-transparent border-side border-2 rounded-full"
+            >
+              Sign In
+            </Link>
+          )}
+
           <a className="btn bg-secondary text-head font-bold rounded-full">
             Be a rider
           </a>

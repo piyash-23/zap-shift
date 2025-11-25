@@ -13,7 +13,7 @@ const AuthLayout = () => {
           <div>
             <Logo />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-col md:flex-row">
             <div className="flex-1">
               <Outlet>
                 <Login></Login>
