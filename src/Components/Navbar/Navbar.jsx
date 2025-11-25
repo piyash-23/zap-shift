@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router";
 import Logo from "../Logo/Logo";
+import useAuth from "../../hooks/useAuth/useAuth";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const links = (
     <>
       <li>
@@ -63,7 +65,7 @@ const Navbar = () => {
             to={"/login"}
             className="btn bg-transparent border-side border-2 rounded-full"
           >
-            Sign In
+            {user ? "Sign Out" : "  Sign In"}
           </Link>
           <a className="btn bg-secondary text-head font-bold rounded-full">
             Be a rider

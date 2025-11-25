@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth/useAuth";
 
 const Register = () => {
+  const { createWithMail, setUser } = useAuth();
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const handleReg = (data) => {
+    console.log(data);
+    createWithMail(data.email, data.password)
+      .then((result) => {
+        console.log(result);
+        setUser(result);
+      })
+      .then((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <div className="p-5 bg-white min-h-screen">
@@ -12,27 +37,66 @@ const Register = () => {
           Register with ZapShift
         </p>
         <div className="w-6/8">
-          <form>
+          <form onSubmit={handleSubmit(handleReg)}>
             <fieldset className="fieldset">
               <label className="label">Name</label>
               <input
                 type="text"
                 className="input outline-none w-full"
-                placeholder="Email"
+                placeholder="Name"
+                {...register("name", { required: true })}
               />
+              {errors.name?.type === "required" && (
+                <p className="text-red-500 font-bold">Enter Your Name</p>
+              )}
               <label className="label">Email</label>
               <input
                 type="email"
                 className="input outline-none w-full"
                 placeholder="Email"
+                {...register("email", { required: true })}
               />
-              <label className="label">Password</label>
-              <input
-                type="password"
-                className="input outline-none w-full"
-                placeholder="Password"
-              />
-
+              {errors.email?.type === "required" && (
+                <p className="text-red-500 font-bold">Enter Your Email</p>
+              )}
+              <div className="relative">
+                <label className="label">Password</label>
+                <input
+                  type={show ? "text" : "password"}
+                  className="input outline-none w-full"
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: 8,
+                    pattern:
+                      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                  })}
+                />
+                <div
+                  className="absolute top-8 right-6 z-[2]"
+                  onClick={handleShow}
+                >
+                  {show ? (
+                    <FaEyeSlash className="cursor-pointer text-[16px]" />
+                  ) : (
+                    <FaRegEye className="cursor-pointer text-[16px]" />
+                  )}
+                </div>
+                {errors.password?.type === "required" && (
+                  <p className="text-red-500 font-bold">Password is required</p>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-red-500 font-bold">
+                    Password must be 8 characters long
+                  </p>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-500 font-bold">
+                    Password must contain at least one letter, one number, and
+                    one special character
+                  </p>
+                )}
+              </div>
               <button className="btn btn-primary mt-4">Register</button>
             </fieldset>
           </form>

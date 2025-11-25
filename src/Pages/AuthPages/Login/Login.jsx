@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth/useAuth";
 
 const Login = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { signWithMail, setUser } = useAuth();
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const handleLogin = (data) => {
     console.log(data);
+    signWithMail(data.email, data.password)
+      .then((result) => {
+        // Signed in
+        const user = result.user;
+        setUser(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
   return (
     <>
@@ -22,15 +46,49 @@ const Login = () => {
                 type="email"
                 className="input outline-none w-full"
                 placeholder="Email"
-                {...register("email")}
+                {...register("email", { required: true })}
               />
-              <label className="label">Password</label>
-              <input
-                type="password"
-                className="input outline-none w-full"
-                placeholder="Password"
-                {...register("password")}
-              />
+              {errors.email?.type === "required" && (
+                <p className="text-red-500 font-bold">Email is required</p>
+              )}
+              <div className="relative">
+                <label className="label">Password</label>
+                <input
+                  type={show ? "text" : "password"}
+                  className="input outline-none w-full"
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: 8,
+                    pattern:
+                      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                  })}
+                />
+                <div
+                  className="absolute top-8 right-6 z-[2]"
+                  onClick={handleShow}
+                >
+                  {show ? (
+                    <FaEyeSlash className="cursor-pointer text-[16px]" />
+                  ) : (
+                    <FaRegEye className="cursor-pointer text-[16px]" />
+                  )}
+                </div>
+                {errors.password?.type === "required" && (
+                  <p className="text-red-500 font-bold">Password is required</p>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-red-500 font-bold">
+                    Password must be 8 characters long
+                  </p>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-500 font-bold">
+                    Password must contain at least one letter, one number, and
+                    one special character
+                  </p>
+                )}
+              </div>
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>

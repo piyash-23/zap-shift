@@ -8,9 +8,11 @@ import Register from "../../Pages/AuthPages/Register/Register";
 const AuthLayout = () => {
   return (
     <>
-      <div className="max-w-7xl mx-auto min-h-screen">
+      <div className="max-w-7xl mx-auto flex justify-center items-center min-h-screen bg-[#FAFDF0]">
         <div>
-          <Logo />
+          <div>
+            <Logo />
+          </div>
           <div className="flex justify-between items-center">
             <div className="flex-1">
               <Outlet>
@@ -18,10 +20,8 @@ const AuthLayout = () => {
                 <Register></Register>
               </Outlet>
             </div>
-            <div className="flex-1 bg-[#FAFDF0] min-h-screen">
-              <div className="flex justify-center items-center h-[100%]">
-                <img src={authImage} />
-              </div>
+            <div className="flex-1 x">
+              <img src={authImage} />
             </div>
           </div>
         </div>
