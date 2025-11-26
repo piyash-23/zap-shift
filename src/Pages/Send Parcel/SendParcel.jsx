@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/Axios/useAxiosSecure";
+import useAuth from "../../hooks/useAuth/useAuth";
 
 const SendParcel = () => {
   const {
@@ -13,6 +16,8 @@ const SendParcel = () => {
       parcelType: "document", // Default selected
     },
   });
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const serviceCenters = useLoaderData();
   const regionsDuplicate = serviceCenters.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
@@ -28,13 +33,50 @@ const SendParcel = () => {
   const [parcelType, setParcelType] = useState("document");
 
   const onSubmit = (data) => {
-    // Merging the local state with form data just to be sure,
-    // though the hidden input registers it too.
     const finalData = { ...data, parcelType };
-    console.log("Booking Data:", finalData);
+    // console.log("Booking Data:", finalData);
+    const isDocument = finalData.parcelType === "document";
+    const isSameDistrict =
+      finalData.senderDistrict === finalData.receiverDistrict;
+    const parcelWeight = parseFloat(finalData.parcelWeight);
+    let cost = 0;
+    if (isDocument) {
+      cost = isSameDistrict ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
+        const minCharge = isSameDistrict ? 110 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    const verifiedData = { ...finalData, cost };
+
+    // console.log("cost", cost);
+    Swal.fire({
+      title: "Want to confirm?",
+      text: `Your total cost for the product is ${cost} taka`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Agreed",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // save the parcel to database
+
+        axiosSecure.post("/parcels", verifiedData).then((res) => {
+          // console.log("after save", res.data);
+        });
+      }
+    });
   };
 
-  // Custom Radio Button Component for "Document" vs "Not-Document"
+  // Custom Radio Button Component for "Document" or "Not-Document"
   const RadioOption = ({ value, label }) => (
     <div
       className="flex items-center cursor-pointer mr-8"
@@ -109,7 +151,7 @@ const SendParcel = () => {
                 Parcel Weight (KG)
               </label>
               <input
-                type="number"
+                type="text"
                 placeholder="Parcel Weight (KG)"
                 className={`w-full border ${
                   errors.parcelWeight ? "border-red-500" : "border-gray-300"
@@ -132,7 +174,7 @@ const SendParcel = () => {
               <h3 className="text-lg font-bold text-[#004d40]">
                 Sender Details
               </h3>
-
+              {/* sender name */}
               <div className="flex flex-col">
                 <label className="text-sm font-semibold text-gray-800 mb-1">
                   Sender Name
@@ -140,11 +182,25 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Sender Name"
+                  defaultValue={user?.displayName}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#004d40] transition"
                   {...register("senderName", { required: true })}
                 />
               </div>
-
+              {/* sender email */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-gray-800 mb-1">
+                  Sender Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="Sender Email"
+                  defaultValue={user?.email}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#004d40] transition"
+                  {...register("senderEmail", { required: true })}
+                />
+              </div>
+              {/* sender address */}
               <div className="flex flex-col">
                 <label className="text-sm font-semibold text-gray-800 mb-1">
                   Address
@@ -250,7 +306,7 @@ const SendParcel = () => {
               <h3 className="text-lg font-bold text-[#004d40]">
                 Receiver Details
               </h3>
-
+              {/* receiver name */}
               <div className="flex flex-col">
                 <label className="text-sm font-semibold text-gray-800 mb-1">
                   Receiver Name
@@ -262,7 +318,19 @@ const SendParcel = () => {
                   {...register("receiverName", { required: true })}
                 />
               </div>
-
+              {/* receiver email */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-gray-800 mb-1">
+                  Receiver Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="Receiver Email"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#004d40] transition"
+                  {...register("receiverEmail", { required: true })}
+                />
+              </div>
+              {/* receiver address */}
               <div className="flex flex-col">
                 <label className="text-sm font-semibold text-gray-800 mb-1">
                   Receiver Address
