@@ -29,9 +29,13 @@ const Navbar = () => {
       <li>
         <Link>Pricing</Link>
       </li>
-      <li>
-        <NavLink to={"/rider"}>Be a Rider</NavLink>
-      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to={"/dashboard/my-parcels"}>My Parcels</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -91,9 +95,12 @@ const Navbar = () => {
             </Link>
           )}
 
-          <a className="btn bg-secondary text-head font-bold rounded-full">
+          <Link
+            to={"/rider"}
+            className="btn bg-secondary text-head font-bold rounded-full"
+          >
             Be a rider
-          </a>
+          </Link>
 
           {user && (
             <div className="dropdown dropdown-end">

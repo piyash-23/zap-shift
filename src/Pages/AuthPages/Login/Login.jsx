@@ -34,7 +34,7 @@ const Login = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        // console.log(errorCode, errorMessage);
       });
   };
   const handleGoogle = () => {
@@ -42,7 +42,7 @@ const Login = () => {
       .then((result) => {
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-        console.log(user);
+        // console.log(user);
         navigate(location?.state || "/");
         setUser(user);
       })
