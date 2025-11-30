@@ -5,6 +5,8 @@ import MyParcels from "../../Pages/DashPages/MyParcels/MyParcels";
 import { GrDeliver } from "react-icons/gr";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Payment from "../../Pages/DashPages/Payment/Payment";
+import PaySuccess from "../../Pages/DashPages/Payment/PaySuccess";
+import PayCancel from "../../Pages/DashPages/Payment/PayCancel";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -90,6 +92,9 @@ const DashboardLayout = () => {
             <Outlet>
               <MyParcels></MyParcels>
               <Payment></Payment>
+              <PaySuccess></PaySuccess>
+
+              <PayCancel></PayCancel>
             </Outlet>
           </div>
         </div>

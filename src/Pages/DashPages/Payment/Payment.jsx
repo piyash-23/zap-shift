@@ -13,6 +13,17 @@ const Payment = () => {
       return res.data;
     },
   });
+  const handlePayment = async () => {
+    const paymentInfo = {
+      cost: parcel.cost,
+      parcelId: parcel._id,
+      senderEmail: parcel.senderEmail,
+      parcelName: parcel.parcelName,
+    };
+    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+    console.log(res.data);
+    window.location.href = res.data.url;
+  };
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -22,8 +33,15 @@ const Payment = () => {
   }
   return (
     <div>
-      <div>Please Pay for: {parcel.parcelName}</div>
-      <button className="btn bg-primary btn-sm text-white">Pay now</button>
+      <div>
+        Please Pay {parcel.cost} taka for: {parcel.parcelName}
+      </div>
+      <button
+        onClick={handlePayment}
+        className="btn bg-primary btn-sm text-white"
+      >
+        Pay now
+      </button>
     </div>
   );
 };
