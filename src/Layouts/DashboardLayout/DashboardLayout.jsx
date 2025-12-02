@@ -7,6 +7,8 @@ import useAuth from "../../hooks/useAuth/useAuth";
 import Payment from "../../Pages/DashPages/Payment/Payment";
 import PaySuccess from "../../Pages/DashPages/Payment/PaySuccess";
 import PayCancel from "../../Pages/DashPages/Payment/PayCancel";
+import PaymentHistory from "../../Pages/DashPages/PaymentHistory/PaymentHistory";
+import { GoHistory } from "react-icons/go";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -20,6 +22,16 @@ const DashboardLayout = () => {
         >
           <GrDeliver className="text-lg" />
           <span className="is-drawer-close:hidden">My Parcels</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/payment-history"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="Payment History"
+        >
+          <GoHistory className="text-lg" />
+          <span className="is-drawer-close:hidden">Payment History</span>
         </Link>
       </li>
     </>
@@ -93,8 +105,8 @@ const DashboardLayout = () => {
               <MyParcels></MyParcels>
               <Payment></Payment>
               <PaySuccess></PaySuccess>
-
               <PayCancel></PayCancel>
+              <PaymentHistory></PaymentHistory>
             </Outlet>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/Axios/useAxiosSecure";
 import useAuth from "../../hooks/useAuth/useAuth";
@@ -28,6 +28,7 @@ const SendParcel = () => {
     const disctricts = regionDistricts.map((d) => d.district);
     return disctricts;
   };
+  const navigate = useNavigate();
   //   console.log(regions);
 
   const [parcelType, setParcelType] = useState("document");
@@ -71,6 +72,16 @@ const SendParcel = () => {
 
         axiosSecure.post("/parcels", verifiedData).then((res) => {
           // console.log("after save", res.data);
+          if (res.data.insertedId) {
+            // navigate("/dashboard/my-parcels");
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Pay",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
         });
       }
     });

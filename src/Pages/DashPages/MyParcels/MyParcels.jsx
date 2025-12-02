@@ -51,7 +51,7 @@ const MyParcels = () => {
     const paymentInfo = {
       cost: parcel.cost,
       senderEmail: parcel.senderEmail,
-      name: parcel.parcelName,
+      parcelName: parcel.parcelName,
       parcelId: parcel._id,
     };
     const res = await axiosSecure.post(

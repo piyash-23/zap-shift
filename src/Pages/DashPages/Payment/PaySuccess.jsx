@@ -16,7 +16,6 @@ const PaySuccess = () => {
   return (
     <div>
       <div>You have successfully wasted your money</div>
-      <div>your session id is: {sessionId}</div>
     </div>
   );
 };
